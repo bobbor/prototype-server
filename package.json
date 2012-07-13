@@ -1,0 +1,23 @@
+{
+	"name": "prototype-server",
+	"description": "a statics server for browsing HTML prototypes",
+	"version": "0.1.0",
+	"author": "Philipp Paul <me@philipp-paul.com>",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/bobbor/prototype-server.git"
+	},
+	"keywords": [
+		"node",
+		"server",
+		"prototype"
+	],
+	"bin": {
+		"node-server": "./bin/server"
+	},
+	"dependencies": {
+		"commander": "1.0.0",
+		"express": "3.0.0beta6",
+		"mime": "1.2.6"
+	}
+}
