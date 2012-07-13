@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+var
+	  program      = require('commander')
+	, server       = require('../')
+	, fs           = require('fs')
+	, cwd          = process.cwd()
+	, util         = require('util')
+	;
+
+program
+	.version(server.version)
+	.option('-f, --folder <files>', 'on which folder to start', cwd)
+	.parse(process.argv)
+;
+server.init(program.folder);
