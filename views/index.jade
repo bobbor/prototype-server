@@ -1,0 +1,16 @@
+!!! 5
+html(lang="de")
+	include inc/html_head
+	body
+		div.container
+			if folder == 'root'
+				include inc/ladies.jade
+			div.row
+				div.span12
+					h2= folder
+			div.row
+				div.span3
+					include inc/sidebar
+				div.span9
+					include inc/content
+		include inc/le-js

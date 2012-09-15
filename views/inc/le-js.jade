@@ -1,0 +1,25 @@
+script(src="/js/jquery.js")
+script(src="/js/underscore.js")
+script(src="/js/backbone.js")
+script(src="/js/backbone-localstorage.js")
+script(src="/js/bookmarks.js")
+if gotoIndex
+	script
+		(function($) {
+			var timer = window.setTimeout(function() {
+				location.href = location.pathname+'index.html';
+			}, 3000);
+			
+			$('table')
+				.before('<p>Automatische Weiterleitung zur <a href="index.html">index.html</a> in 3 Sekunden<br/>\
+					<a href="#">Hier klicken </a>um abzubrechen.</p>')
+				.prev()
+				.on('click', 'a[href="#"]', function() {
+					window.clearTimeout(timer);
+					$(this).parent().fadeOut(250, function() {
+						$(this).remove();
+					})
+					return false
+				})
+			;
+		}(jQuery));
