@@ -127,6 +127,16 @@
 					})
 					.listen(port);
 			});
+			
+			
+			// telling master cluster that fork is runnning
+			setInterval(function() {
+				process.send({
+					cmd: "reportMem",
+					memory: process.memoryUsage(),
+					process: process.pid
+				});
+			}, 1000);
 		}
 	};
 	
