@@ -1,6 +1,18 @@
 {
 	"docroot": "C:\\Users\\Philipp\\workspace\\",
-	"foldersFirst": true,
 	"blacklist": [".svn", ".project", ".metadata"],
-	"gotoIndex": true
+	"hooks": {
+		"folders": [
+			"default",
+			"blacklist",
+			"foldersFirst",
+			"oneup",
+			"gotoIndex",
+			"packable",
+			"breadcrumb"
+		],
+		"files": [
+			"packager"
+		]
+	}
 }

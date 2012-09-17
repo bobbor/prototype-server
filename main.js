@@ -3,7 +3,7 @@
 	var express = require('express');
 	var _ = require('underscore');
 	var fs = require('fs');
-	var reader = require('./inc/files');
+	var reader = require('./inc/reader');
 	var mime = require('mime');
 	var http = require('http');
 	
@@ -13,50 +13,18 @@
 		return this.push.apply(this, rest);
 	};
 	
-	
 	var server = {
 		create: function() {
 			var app = express();
 			var config;
-			
-			var postProcess = function(data) {
-				var 
-					temp1 = [],
-					temp2 = [],
-					len = data.length
-				;
-				
-				if(config.blacklist) {
-					while(len--) {
-						if(config.blacklist.indexOf(data[len].name) !== -1) {
-							data.remove(len);
-						}
-					}
-				}
-				
-				if(config.foldersFirst) {
-					data.forEach(function(item) {
-						if(item.type === 'folder') {
-							temp1.push(item);
-						} else {
-							temp2.push(item);
-						}
-					});
-				}
-				
-				return temp1.concat(temp2);
-			};
 			
 			app.use(express.bodyParser());
 			app.use(express.methodOverride());
 			
 			app.use(express.static(__dirname+'/public', {maxAge: 1000*60*5}));
 			app.use(app.router);
-			
 			app.set('view engine', 'jade');
-			
 			app.engine('jade', require('jade').__express);
-			
 			app.get('/favicon.ico', function(req, res, next) {
 				res.send(200);
 			});
@@ -65,39 +33,19 @@
 				var path = req.params[0].split('/');
 				var current = path[path.length-1];
 				
-				reader.read(config.docroot+req.params[0], function(err, file, data) {
+				reader.read(config.docroot+req.params[0], config, function(err, isFile, data) {
 					if(err) {
 						res.send(404);
-					} else if(file) {
-						res.type(data.type);
+					} else if(isFile) {
+						res.header('content-type', data.type+'; charset=utf-8');
 						res.send(data.data);
 					} else {
 						if(current !== '') {
 							res.redirect(req.params[0]+'/');
 							return;
 						}
-						
-						data = postProcess(data);
-						if(req.params[0]) {
-							data.unshift({
-								name: 'Up one dir',
-								size: '0 B',
-								modified: ' - ',
-								modifiedNice: ' - ',
-								type: 'folder',
-								classNames: 'type-folder',
-								link: './../'
-							});
-						}
-						
-						res.render('index', {
-							gotoIndex: config.gotoIndex &&
-										data.reduce(function(prev, item) {
-											return prev || (item.name === 'index.html');
-										}, false),
-							content: data,
-							folder: req.params[0] ? req.params[0] : 'root'
-						}, function(err, html) {
+						data.folder = req.params[0] ? req.params[0] : 'root';
+						res.render('index', data, function(err, html) {
 							res.type('text/html');
 							res.send(html);
 						});
@@ -114,7 +62,18 @@
 					process.exit();
 				}
 				config = JSON.parse(data);
-				
+				if(config.hooks) {
+					if(config.hooks.folders) {
+						config.hooks.folders.forEach(function(hook) {
+							reader.addFolderHook(hook);
+						});
+					}
+					if(config.hooks.files) {
+						config.hooks.files.forEach(function(hook) {
+							reader.addFileHook(hook);
+						});
+					}
+				}
 				var server = http.createServer(app)
 					.on('error', function(err) {
 						console.log('error with port '+port+'. trying '+fallbackPort);
@@ -127,7 +86,6 @@
 					})
 					.listen(port);
 			});
-			
 			
 			// telling master cluster that fork is runnning
 			setInterval(function() {
