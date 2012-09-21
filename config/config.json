@@ -1,6 +1,6 @@
 {
-	"docroot": "C:\\Users\\Philipp\\workspace\\",
-	"blacklist": [".svn", ".project", ".metadata"],
+	"docroot": "C:\\Users\\philipp.paul\\Documents\\workspace\\",
+	"blacklist": [".svn", ".project", ".metadata", ".git", ".gitignore", ".gitattributes"],
 	"hooks": {
 		"folders": [
 			"default",
