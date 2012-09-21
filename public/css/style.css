@@ -1,3 +1,4 @@
+/* MAIN Table View */
 tr > :nth-child(4n+1) {
 	width: 22px;
 }
@@ -9,6 +10,24 @@ tr > :nth-child(4n+4) {
 }
 .nav.nav-list {
 	margin-bottom: 20px;
+}
+
+/* Dokumentiere Box */
+#dokumentation {
+	background-color: #08C;
+	color: white;
+}
+#dokumentation .divider {
+	height: 1px;
+	margin: 9px 1px;
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+/* Packager box */
+#packager {
+	background-color: #8c0;
+	color: white;
 }
 
 

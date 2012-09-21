@@ -7,10 +7,28 @@ html(lang="de")
 				include inc/ladies.jade
 			div.row
 				div.span12
-					h2= folder
+					h2 node.js prototype browser
 			div.row
+				div.span12
+				- if(breadcrumb) {
+					ul.breadcrumb
+						each val,i in breadcrumb
+							li
+								if i === breadcrumb.length-1
+									span= val.title
+								else 
+									a(href="#{val.link}")= val.title
+								span.divider /
+				- }
+			div.row
+				div.span9
+					- if(files) {
+						include inc/content
+					- }
 				div.span3
 					include inc/sidebar
-				div.span9
-					include inc/content
+					include inc/dokumentation
+					- if(packable) {
+						include inc/packager
+					- }
 		include inc/le-js
