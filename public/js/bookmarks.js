@@ -105,14 +105,14 @@
 			},
 			
 			addBookmark: function() {
-				var name = $('h2').text();
+				var name = $('.breadcrumb').text();
 				if(name !== 'root') {
 					name = name.split('/');
 					name = name[name.length-2];
 				}
 				
 				var around = Bookmarks.reduce(function(memo, bookmark) {
-					return memo || bookmark.get('link') === location.href
+					return memo || bookmark.get('link') === location.href;
 				}, false);
 				
 				if(around) {

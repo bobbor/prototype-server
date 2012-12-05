@@ -11,7 +11,7 @@
 			var link = '';
 			
 			folder.breadcrumb = nicerPath.split('/').map(function(segment) {
-				link += (segment === 'root' ? '' : segment)+'/'
+				link += (segment === 'root' ? '' : segment)+'/';
 				return {
 					link: link,
 					title: segment

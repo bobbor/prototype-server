@@ -26,6 +26,6 @@
 				callback(null, folder);
 			});
 		}
-	}
+	};
 	module.exports = exports = hook;
 }());

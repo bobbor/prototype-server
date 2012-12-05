@@ -4,13 +4,9 @@
 	var u = require('./utils');
 	var _ = require('underscore');
 	var activeHooks = {
-		folders: {
-			
-		},
-		files: {
-		
-		}
-	}
+		folders: {},
+		files: {}
+	};
 	
 	mime.define({
 		'application/x-gzip': ['gz', 'tgz'],
@@ -18,7 +14,11 @@
 		'text/php': ['php'],
 		'text/batch': ['bat', 'cmd'],
 		'text/ruby': ['rb'],
-		'text/css': ['scss', 'sass', 'less', 'lcss']
+		'text/css': ['scss', 'sass', 'less', 'lcss'],
+		'text/vtt': ['vtt'],
+		'video/x-m4v': ['m4v'],
+		'video/mp4': ['mp4'],
+		'video/webm': ['webm']
 	});
 	
 	var reader = {
@@ -55,7 +55,7 @@
 							path: path,
 							config: config,
 							files: files.map(function(file) {
-								return {name: file}
+								return {name: file};
 							})
 						};
 						u.lazyEach(activeHooks.folders, function(hook, name, hooks, next) {

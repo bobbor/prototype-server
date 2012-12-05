@@ -24,6 +24,7 @@ if( cluster.isMaster ) {
 	}, 1000);
 
 } else {
+	
 	server.create();
 }
 

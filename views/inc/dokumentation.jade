@@ -3,23 +3,29 @@ div#dokumentation.well(data-folder="#{folder}")
 	form(method="post",action="/generator/dokumentation")
 		fieldset
 			div.control-group
-				label.control-label(for="files") Dateien
-				div.controls.input-append
-					input#files.span2(name="files", type="text")
+				p Dateien
+				div.controls
+					input#files.span2(name="files", type="hidden")
 					button.btn(type="button")
 						i.icon-folder-open
+					ul
+						li Nichts ausgewählt
 			div.control-group
-				label.control-label(for="excludes") Ausnahmen
-				div.controls.input-append
-					input#excludes.span2(name="excludes", type="text")
+				p Ausnahmen
+				div.controls
+					input#excludes.span2(name="excludes", type="hidden")
 					button.btn(type="button")
 						i.icon-folder-open
+					ul
+						li Nichts ausgewählt
 			div.divider
 			div.control-group
-				label.control-label(for="folder") Output
-				div.controls.input-append
-					input#folder.span2(name="folder", type="text")
+				p Output
+				div.controls
+					input#folder.span2(name="folder", type="hidden")
 					button.btn(type="button")
 						i.icon-folder-open
+					ul
+						li Nichts ausgewählt
 			div.control-group
 				button.btn.btn-small Dokumentiere

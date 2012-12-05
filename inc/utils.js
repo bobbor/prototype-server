@@ -12,7 +12,7 @@
 			stepCallback(item, i, arr, function() {
 				arrayIterator(items, ++i);
 			});
-		}
+		};
 		
 		var objectIterator = function(items) {
 			if(!items.length) {
@@ -25,7 +25,7 @@
 			stepCallback(val, key, arr, function() {
 				objectIterator(items);
 			});
-		}
+		};
 		
 		if(_.isArray(arr)) {
 			arrayIterator(arr, 0);
@@ -79,7 +79,7 @@
 				}
 				idx++;
 				return iterator(nextStep);
-			}
+			};
 			return iterator(size);
 		},
 		time: function(timestamp) {
@@ -121,7 +121,7 @@
 				idx++;
 				current = steps[idx];
 				return iterator(newTime);
-			}
+			};
 			
 			if(diff < 1000) {
 				return 'less than a second ago';

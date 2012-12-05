@@ -6,33 +6,37 @@
 	var reader = require('./inc/reader');
 	var mime = require('mime');
 	var http = require('http');
-	
+
 	Array.prototype.remove = function(from, to) {
 		var rest = this.slice((to || from) + 1 || this.length);
 		this.length = from < 0 ? this.length + from : from;
 		return this.push.apply(this, rest);
 	};
-	
+
 	var server = {
 		create: function() {
 			var app = express();
 			var config;
-			
+
 			app.use(express.bodyParser());
 			app.use(express.methodOverride());
-			
-			app.use(express.static(__dirname+'/public', {maxAge: 1000*60*5}));
+
+			app.use(express['static'](__dirname+'/public', {maxAge: 1000*60*5}));
 			app.use(app.router);
 			app.set('view engine', 'jade');
 			app.engine('jade', require('jade').__express);
-			app.get('/favicon.ico', function(req, res, next) {
-				res.send(200);
+			app.get('favicon.ico', function(req, res, next) {
+				res.send(__dirname+'/public/favicon.ico');
 			});
-			
+			app.get('apple-touch-icon.png', function(req, res, next) {
+				res.send(__dirname+'/public/fav64.png');
+			});
+
+
 			app.get('/*', function(req, res, next) {
 				var path = req.params[0].split('/');
 				var current = path[path.length-1];
-				
+
 				reader.read(config.docroot+req.params[0], config, function(err, isFile, data) {
 					if(err) {
 						res.send(404);
@@ -52,7 +56,7 @@
 					}
 				});
 			});
-			
+
 			fs.readFile(__dirname+'/config/config.json','utf-8', function(err, data) {
 				var desiredPort = 80;
 				var fallbackPort = 9020;
@@ -86,7 +90,7 @@
 					})
 					.listen(port);
 			});
-			
+
 			// telling master cluster that fork is runnning
 			setInterval(function() {
 				process.send({
@@ -97,6 +101,6 @@
 			}, 1000);
 		}
 	};
-	
+
 	module.exports = exports = server;
 }());
