@@ -3,6 +3,7 @@
 	var express = require('express');
 	var _ = require('underscore');
 	var fs = require('fs');
+	var colors = require('colors');
 	var reader = require('./inc/reader');
 	var mime = require('mime');
 	var http = require('http');
@@ -41,7 +42,13 @@
 					if(err) {
 						res.send(404);
 					} else if(isFile) {
-						res.header('content-type', data.type+'; charset=utf-8');
+						var suffix = data.type.split('/');
+						suffix = suffix[0];
+						if(suffix === 'video') {
+							res.header('Content-Range', 'bytes 0-'+(data.data.length-1)+'/'+(data.data.length));
+							res.status(200);
+						}
+						res.header('Content-Type', data.type+'; charset=utf-8');
 						res.send(data.data);
 					} else {
 						if(current !== '') {
@@ -62,7 +69,7 @@
 				var fallbackPort = 9020;
 				var port = desiredPort;
 				if(err) {
-					console.log('can\'t read config');
+					console.log('can\'t read config'.red);
 					process.exit();
 				}
 				config = JSON.parse(data);
@@ -80,13 +87,20 @@
 				}
 				var server = http.createServer(app)
 					.on('error', function(err) {
-						console.log('error with port '+port+'. trying '+fallbackPort);
+						process.send({
+							cmd: 'state',
+							state: true,
+						});
 						if(port === desiredPort) {
 							port = fallbackPort; server.listen(port);
 						}
 					})
 					.on('listening', function() {
-						console.log('success. listening on Port '+port);
+						process.send({
+							cmd: 'state',
+							state: true,
+							process: process.pid
+						});
 					})
 					.listen(port);
 			});

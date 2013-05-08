@@ -7,7 +7,7 @@
 		folders: {},
 		files: {}
 	};
-	
+
 	mime.define({
 		'application/x-gzip': ['gz', 'tgz'],
 		'image/xcf': ['xcf'],
@@ -16,11 +16,10 @@
 		'text/ruby': ['rb'],
 		'text/css': ['scss', 'sass', 'less', 'lcss'],
 		'text/vtt': ['vtt'],
-		'video/x-m4v': ['m4v'],
-		'video/mp4': ['mp4'],
+		'video/mp4': ['mp4', 'm4v', 'mov'],
 		'video/webm': ['webm']
 	});
-	
+
 	var reader = {
 		addFolderHook: function(name) {
 			var names = name.split(' ');
@@ -49,7 +48,7 @@
 							callback(err);
 							return;
 						}
-						
+
 						// preparing the filesArray for the hooks
 						var folder = {
 							path: path,
@@ -70,7 +69,7 @@
 							callback(null, false, folder);
 						});
 					});
-					
+
 				} else if(stats.isFile()) {
 					fs.readFile(path, function(err, data) {
 						if(err) {
@@ -80,14 +79,14 @@
 						var folders = path.split('/');
 						var system = folders.shift();
 						folders = system.split('\\').concat(folders);
-						
+
 						var file = {
 							path: folders,
 							name: folders[folders.length-1],
 							type: mime.lookup(path),
 							data: data
 						};
-						
+
 						u.lazyEach(activeHooks.files, function(hook, name, hooks, next) {
 							hook.process(file, function(err, newFile) {
 								file = newFile;
@@ -101,6 +100,6 @@
 			});
 		}
 	};
-	
+
 	module.exports = exports = reader;
 }());
