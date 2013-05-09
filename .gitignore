@@ -164,4 +164,5 @@ pip-log.txt
 
 # own stuff
 node_modules
-config\config.json
+config.json
+*.sublime*

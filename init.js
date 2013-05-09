@@ -2,7 +2,7 @@ var cluster = require('cluster');
 var util = require('util');
 var server = require('./main');
 var colors = require('colors');
-var cpus = require('os').cpus().length;
+var cpus = 1//require('os').cpus().length;
 var workers = {};
 
 var rssWarn = (150 * 1024 * 1024); // 220MB
@@ -20,6 +20,7 @@ var justify = function(o, pre, sum) {
 	return o;
 }
 var log = function(w) {
+	return;
 	util.print("\u001b[2J\u001b[0;0H");
 	console.log('\n'+'  '+'prototype server'.bold.underline+'\n');
 	console.log('/====================================================================\\');
@@ -49,7 +50,7 @@ if( cluster.isMaster ) {
 		var now = +(new Date());
 		for( var pid in workers) {
 			if( workers.hasOwnProperty(pid) && (workers[pid].lastCb + 5000 < now) ) {
-				workers[m.process].status = {
+				workers[pid].status = {
 					text: 'not responding',
 					color: 'red'
 				};

@@ -1,11 +1,9 @@
 (function() {
 
 	var express = require('express');
-	var _ = require('underscore');
 	var fs = require('fs');
 	var colors = require('colors');
 	var reader = require('./inc/reader');
-	var mime = require('mime');
 	var http = require('http');
 
 	Array.prototype.remove = function(from, to) {
@@ -18,6 +16,8 @@
 		create: function() {
 			var app = express();
 			var config;
+			var port = 80;
+			var fb = 9020;
 
 			app.use(express.bodyParser());
 			app.use(express.methodOverride());
@@ -33,11 +33,12 @@
 				res.send(__dirname+'/public/fav64.png');
 			});
 
-
 			app.get('/*', function(req, res, next) {
+				console.log(req.params[0])
 				var path = req.params[0].split('/');
 				var current = path[path.length-1];
 
+				console.log(config.docroot+req.params[0]);
 				reader.read(config.docroot+req.params[0], config, function(err, isFile, data) {
 					if(err) {
 						res.send(404);
@@ -63,48 +64,39 @@
 					}
 				});
 			});
-
-			fs.readFile(__dirname+'/config/config.json','utf-8', function(err, data) {
-				var desiredPort = 8080;
-				var port = desiredPort;
-				if(err) {
-					console.log('can\'t read config'.red);
-					process.exit();
+			var cfg = fs.readFileSync(__dirname+'/config/config.json', 'utf-8');
+			if(typeof cfg === 'Error') {
+				console.log('can\'t read config'.red);
+				process.exit();
+			}
+			config = JSON.parse(cfg);
+			if(config.hooks) {
+				if(config.hooks.folders) {
+					config.hooks.folders.forEach(function(hook) {
+						reader.addFolderHook(hook);
+					});
 				}
-				config = JSON.parse(data);
-				if(config.hooks) {
-					if(config.hooks.folders) {
-						config.hooks.folders.forEach(function(hook) {
-							reader.addFolderHook(hook);
-						});
-					}
-					if(config.hooks.files) {
-						config.hooks.files.forEach(function(hook) {
-							reader.addFileHook(hook);
-						});
-					}
+				if(config.hooks.files) {
+					config.hooks.files.forEach(function(hook) {
+						reader.addFileHook(hook);
+					});
 				}
-				var server = http.createServer(app)
-					.on('error', function(err) {
-						process.send({
-							cmd: 'state',
-							state: true,
-							port: fallbackPort,
-							process: process.pid
-						});
-						if(port === desiredPort) {
-							port = fallbackPort; server.listen(port);
-						}
-					})
-					.on('listening', function() {
-						process.send({
-							cmd: 'state',
-							state: true,
-							port: port,
-							process: process.pid
-						});
-					})
-					.listen(port);
+			}
+			var server = http.createServer(app)
+				.on('error', function() {
+					console.log(arguments)
+				})
+				.on('listening', function() {
+					process.send({
+						cmd: 'state',
+						state: true,
+						port: port,
+						process: process.pid
+					});
+				})
+			;
+			server.listen(port, function() {
+				console.log('cb', arguments)
 			});
 
 			// telling master cluster that fork is runnning
