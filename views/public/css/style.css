@@ -9,7 +9,10 @@ tr > :nth-child(4n+4) {
 	width:150px;
 }
 
-@media (max-width: 350px) {
+.ladies {
+	display: none;
+}
+@media (max-width: 550px) {
 	tr > :nth-child(4n+4),
 	tr > :nth-child(4n+3),
 	.ladies {

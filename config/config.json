@@ -1,6 +1,7 @@
 {
-	"docroot": "/home/user/ext/projects/",
+	"docroot": "/home/bobbor/projects/",
 	"blacklist": [".svn", ".project", ".metadata", ".git", ".gitignore", ".gitattributes"],
+	"inline": ["text/css", "application/json", "application/javascript"],
 	"hooks": {
 		"folders": [
 			"default",
@@ -12,7 +13,8 @@
 			"breadcrumb"
 		],
 		"files": [
-			"packager"
+			"packager",
+			"inline"
 		]
 	}
 }

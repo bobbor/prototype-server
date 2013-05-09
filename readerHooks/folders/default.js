@@ -1,5 +1,10 @@
+/*
+	this hook extends the default information about a file inside a folder,
+	which are very .. ahem.. sucky, with its stat information 
+*/
+
 (function() {
-	var u = require('../inc/utils.js');
+	var u = require('./lib/utils');
 	var mime = require('mime');
 	var fs = require('fs');
 	

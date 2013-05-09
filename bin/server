@@ -1,6 +1,8 @@
+#!/usr/bin/env node
+
 var cluster = require('cluster');
 var util = require('util');
-var server = require('./main');
+var server = require('../');
 var colors = require('colors');
 var cpus = 1//require('os').cpus().length;
 var workers = {};
@@ -57,7 +59,6 @@ if( cluster.isMaster ) {
 				log(workers);
 				workers[pid].worker.destroy();
 				delete workers[pid];
-				createWorker();
 			}
 		}
 	}, 1000);
@@ -68,7 +69,8 @@ if( cluster.isMaster ) {
 
 function createWorker() {
 	var worker = cluster.fork();
-	var pid = worker.process.pid;
+	var pid = worker.pid || worker.process.pid;
+	
 	workers[pid] = {
 		worker: worker,
 		lastCb: +(new Date()) - 1000,
@@ -81,43 +83,59 @@ function createWorker() {
 		mem: '-1'
 	};
 	log(workers)
-
+	
 	worker.on('message', function( m ) {
-		if( m.cmd === 'reportMem' ) {
-			workers[m.process].lastCb = +(new Date());
-			workers[m.process].mem = m.memory.rss;
-			if( m.memory.rss > rssLimit ) {
-				workers[m.process].status = {
-					text: 'himem',
-					color: 'red'
-				};
-				log(workers);
-				workers[m.process].worker.destroy();
-				delete workers[pid];
-				createWorker();
-				return;
-			}
-			if( m.memory.rss > rssWarn && m.memory.rss < rssLimit ) {
-				workers[m.process].status = {
-					text: 'lowmem',
-					color: 'yellow'
+		switch(m.cmd) {
+			case 'reportMem':
+				workers[m.process].lastCb = +(new Date());
+				workers[m.process].mem = m.memory.rss;
+
+				if( m.memory.rss > rssLimit ) {
+					workers[m.process].status = {
+						text: 'himem',
+						color: 'red'
+					};
+					log(workers);
+					workers[m.process].worker.destroy();
+					delete workers[m.process];
+					return;
 				}
+				if( m.memory.rss > rssWarn && m.memory.rss < rssLimit ) {
+					workers[m.process].status = {
+						text: 'lowmem',
+						color: 'yellow'
+					}
+					log(workers)
+					return;
+				}
+				workers[m.process].status = {
+					text: 'ok',
+					color: 'green'
+				}
+				log(workers);
+				break;
+
+			case 'state':
+				workers[m.process].status = {
+					text: m.state?'ok':'fail',
+					color: m.state?'green':'red'
+				};
+				workers[m.process].port = m.port;
 				log(workers)
-				return;
-			}
-			workers[m.process].status = {
-				text: 'ok',
-				color: 'green'
-			}
-			log(workers);
+				break;
 		}
-		if(m.cmd === 'state') {
-			workers[m.process].status = {
-				text: m.state?'ok':'fail',
-				color: m.state?'green':'red'
-			};
-			workers[m.process].port = m.port;
-			log(workers)
+	}).on('exit', function(code, signal) {
+		if(code !== 0) {
+			createWorker();
+			return;
+		}
+		if(this.state === 'dead') {
+			delete workers[this.process.pid];
+		}
+		var hasWorkers = false;
+		for(var prop in workers) { hasWorkers = true; break;}
+		if(!hasWorkers) {
+			process.exit();
 		}
 	});
 }
