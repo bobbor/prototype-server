@@ -22,7 +22,8 @@
 		"colors"     : "*",
 		"express"    : ">3.0.0",
 		"mime"       : ">=1.2.9",
-		"underscore" : ">=1.4.4"
+		"underscore" : ">=1.4.4",
+		"jade"       : "*"
 	},
 	"license": "MIT",
 	"engines": {

@@ -23,12 +23,13 @@
 			app.use(express['static'](__dirname+'/../views/public', {maxAge: 1000*60*5}));
 			app.use(app.router);
 			app.set('view engine', 'jade');
+			app.set('views', __dirname+'/../views/');
 			app.engine('jade', require('jade').__express);
 			app.get('favicon.ico', function(req, res, next) {
-				res.send('/views/public/favicon.ico');
+				res.send(__dirname+'/../views/public/favicon.ico');
 			});
 			app.get('apple-touch-icon.png', function(req, res, next) {
-				res.send('/views/public/fav64.png');
+				res.send(__dirname+'/../views/public/fav64.png');
 			});
 
 
@@ -69,7 +70,7 @@
 			});
 
 			try {
-				config = fs.readFileSync('config/config.json','utf-8');
+				config = fs.readFileSync(__dirname+'/../config/config.json','utf-8');
 			} catch(o_O) {
 				if(o_O.code === 'ENOENT') {
 					console.log('can\'t read config'.red);
