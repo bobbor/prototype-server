@@ -65,8 +65,7 @@
 			});
 
 			fs.readFile(__dirname+'/config/config.json','utf-8', function(err, data) {
-				var desiredPort = 80;
-				var fallbackPort = 9020;
+				var desiredPort = 8080;
 				var port = desiredPort;
 				if(err) {
 					console.log('can\'t read config'.red);
@@ -90,6 +89,8 @@
 						process.send({
 							cmd: 'state',
 							state: true,
+							port: fallbackPort,
+							process: process.pid
 						});
 						if(port === desiredPort) {
 							port = fallbackPort; server.listen(port);
@@ -99,6 +100,7 @@
 						process.send({
 							cmd: 'state',
 							state: true,
+							port: port,
 							process: process.pid
 						});
 					})
@@ -112,7 +114,7 @@
 					memory: process.memoryUsage(),
 					process: process.pid
 				});
-			}, 1000);
+			}, 2000);
 		}
 	};
 

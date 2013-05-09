@@ -21,20 +21,23 @@ var justify = function(o, pre, sum) {
 }
 var log = function(w) {
 	util.print("\u001b[2J\u001b[0;0H");
-	console.log('| # | pid       | mem       | warn      | limit     | status                   |')
-	console.log('|===|===========|===========|===========|===========|==========================|');
+	console.log('\n'+'  '+'prototype server'.bold.underline+'\n');
+	console.log('/====================================================================\\');
+	console.log('| #  | pid   | port | mem  | warn | limit | status                   |')
+	console.log('|====|=======|======|======|======|=======|==========================|');
 	var i = 1;
 	for(var prop in w) {
 		console.log('|'+
-			justify(i, 1, 3)+'|'+
-			justify(prop, 1, 11)+'|'+
-			justify(((w[prop].mem/1024/1024)|0)+'M', 1, 11)+'|'+
-			justify(((rssWarn/1024/1024)|0)+'M', 1, 11).yellow+'|'+
-			justify(((rssLimit/1024/1024)|0)+'M', 1, 11).red+ '|'+
+			justify(i, 1, 4)+'|'+
+			justify(prop, 1, 7)+'|'+
+			justify(w[prop].port, 1, 6).blue+'|'+
+			justify(((w[prop].mem/1024/1024)|0)+'M', 1, 6)+'|'+
+			justify(((rssWarn/1024/1024)|0)+'M', 1, 6).yellow+'|'+
+			justify(((rssLimit/1024/1024)|0)+'M', 1, 7).red+ '|'+
 			(justify(w[prop].status.text, 1, 26))[w[prop].status.color]+'|');
-		console.log('|---|-----------|-----------|-----------|-----------|--------------------------|');
 		i++;
 	}
+	console.log('\\====================================================================/');
 };
 
 if( cluster.isMaster ) {
@@ -73,7 +76,8 @@ function createWorker() {
 			text: 'idle',
 			color: 'white'
 		},
-		mem: '0'
+		port: '-1',
+		mem: '-1'
 	};
 	log(workers)
 
@@ -111,6 +115,7 @@ function createWorker() {
 				text: m.state?'ok':'fail',
 				color: m.state?'green':'red'
 			};
+			workers[m.process].port = m.port;
 			log(workers)
 		}
 	});

@@ -1,11 +1,11 @@
 {
-	"docroot": "C:\\Users\\philipp.paul\\Documents\\workspace\\",
+	"docroot": "/home/user/ext/projects/",
 	"blacklist": [".svn", ".project", ".metadata", ".git", ".gitignore", ".gitattributes"],
 	"hooks": {
 		"folders": [
 			"default",
 			"blacklist",
-			"foldersFirst",
+			"foldersfirst",
 			"oneup",
 			"gotoIndex",
 			"packable",
