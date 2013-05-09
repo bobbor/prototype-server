@@ -1,5 +1,6 @@
 {
-	"docroot": "/home/bobbor/projects/",
+	"docroot": "/home/user/ext/projects/",
+	"port": 8080,
 	"blacklist": [".svn", ".project", ".metadata", ".git", ".gitignore", ".gitattributes"],
 	"inline": ["text/css", "application/json", "application/javascript"],
 	"hooks": {

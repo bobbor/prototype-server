@@ -5,6 +5,7 @@
 	var colors = require('colors');
 	var reader = require('./inc/reader');
 	var http = require('http');
+	var path = require('path');
 
 	Array.prototype.remove = function(from, to) {
 		var rest = this.slice((to || from) + 1 || this.length);
@@ -16,7 +17,6 @@
 		create: function() {
 			var app = express();
 			var config;
-			var port = 8080;
 
 			app.use(express.bodyParser());
 			app.use(express.methodOverride());
@@ -68,14 +68,23 @@
 					}
 				});
 			});
-
+			var configFile =
+				process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + path.sep +
+				'.prototype-server.config';
 			try {
-				config = fs.readFileSync(__dirname+'/../config/config.json','utf-8');
+				config = fs.readFileSync(configFile, 'utf-8');
 			} catch(o_O) {
 				if(o_O.code === 'ENOENT') {
-					console.log('can\'t read config'.red);
+					try {
+						config = fs.readFileSync(__dirname+'/../config/config.json','utf-8');
+					} catch(o_O) {
+						if(o_O.code === 'ENOENT') {
+							console.log('can\'t read config'.red);
+						}
+						process.exit();
+					}
+					fs.writeFileSync(configFile, config, 'utf-8');
 				}
-				process.exit();
 			}
 			try {
 				config = JSON.parse(config);
@@ -103,11 +112,11 @@
 					process.send({
 						cmd: 'state',
 						state: true,
-						port: port,
+						port: config.port,
 						process: process.pid
 					});
 				})
-				.listen(port);
+				.listen(config.port);
 			// telling master cluster that fork is runnning
 			setInterval(function() {
 				process.send({

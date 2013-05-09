@@ -1,7 +1,7 @@
 {
 	"name": "prototype-server",
 	"preferGlobal": "true",
-	"version": "0.4.1",
+	"version": "0.2.0",
 	"author": "bobbor <bobbor.pap@gmail.com>",
 	"description": "a simple file server that can be infinitely extended using hooks",
 	"bin": {
