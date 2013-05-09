@@ -1,0 +1,129 @@
+/* MAIN Table View */
+tr > :nth-child(4n+1) {
+	width: 22px;
+}
+tr > :nth-child(4n+3) {
+	width: 50px;
+}
+tr > :nth-child(4n+4) {
+	width:150px;
+}
+
+.ladies {
+	display: none;
+}
+@media (max-width: 550px) {
+	tr > :nth-child(4n+4),
+	tr > :nth-child(4n+3),
+	.ladies {
+		display: none;
+	}
+}
+.nav.nav-list {
+	margin-bottom: 20px;
+}
+
+/* Dokumentiere Box */
+#dokumentation {
+	background-color: #08C;
+	color: white;
+}
+#dokumentation .divider {
+	height: 1px;
+	margin: 9px 1px;
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+#dokumentation input {
+	visibility: hidden;
+}
+#dokumentation .control-group {
+	clear: both;
+}
+#dokumentation .controls {
+	overflow: hidden;
+}
+#dokumentation .controls button {
+	float: left;
+	margin-right: 20px;
+}
+#dokumentation ul {
+	font-size: 14px;
+	list-style: none;
+	margin-left: 66px;
+}
+/* Packager box */
+#packager {
+	background-color: #8c0;
+	color: white;
+}
+
+
+
+
+/*******************
+ * ICONS FOR TYPES *
+ ******************/
+
+i[class^="type-"] {
+	display: block;
+	width: 22px;
+	height: 22px;
+	text-indent: -9999em;
+	background: url(../img/icons.png) 0 0 no-repeat;
+}
+
+/* generics come first */
+i.type-text,
+i.type-json { background-position: -44px -66px; }
+i.type-video { background-position: -22px -66px; }
+i.type-audio { background-position: 0px -66px; }
+i.type-image { background-position: -66px -22px; }
+
+/* first column in sprite */
+i.type-gif { background-position: 0 -22px; }
+i.type-html,
+i.type-htm,
+i.type-phtml,
+i.type-phtm { background-position: 0 -44px; }
+i.type-vnd_adobe_photoshop { background-position: 0 -88px; }
+
+/* second column in sprite */
+i.type-exe,
+i.type-msdownload { background-position: -22px 0;}
+i.type-jpg,
+i.type-jpeg,
+i.type-jpg2k,
+i.type-jpeg2k { background-position: -22px -22px; }
+i.type-css { background-position: -22px -44px; }
+i.type-shockwave {background-position: -22px -88px;}
+
+/* third column in sprite */
+i.type-zip,
+i.type-7z,
+i.type-tar,
+i.type-gzip,
+i.type-bzip2,
+i.type-rar { background-position: -44px 0; }
+i.type-png { background-position: -44px -22px; }
+i.type-js,
+i.type-javascript { background-position: -44px -44px; }
+i.type-pdf {background-position: -44px -88px;}
+
+/* fourth column in sprite */
+i.type-folder { background-position: -66px 0; }
+i.type-xml { background-position: -66px -44px; }
+i.type-font,
+i.type-fontobject { background-position: -66px -66px; }
+i.type-batch { background-position: -66px -88px; }
+
+/* fifth column in sprite */
+i.type-msword,
+i.type-officedocument_wordprocessingml_document {background-position: -88px 0;}
+i.type-excel,
+i.type-officedocument_spreadsheetml_sheet { background-position: -88px -22px; }
+i.type-powerpoint,
+i.type-officedocument_presentationml_presentation { background-position: -88px -44px; }
+i.type-ruby { background-position: -88px -66px; }
+i.type-php { background-position: -88px -88px; }
