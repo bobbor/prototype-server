@@ -1,7 +1,7 @@
 {
   "name": "prototype-server",
   "preferGlobal": "true",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "bobbor <bobbor.pap@gmail.com>",
   "description": "a simple file server that can be infinitely extended using hooks",
   "bin": {
@@ -20,7 +20,7 @@
     "prototype",
     "hooks",
     "express",
-    "jade"
+    "handlebars"
   ],
   "dependencies": {
     "colors": "*",
@@ -29,13 +29,11 @@
     "underscore": ">=1.4.4",
     "consolidate": "^0.10.0",
     "handlebars": "^2.0.0-alpha.1",
-    "user-agent-parser": "^0.6.0"
+    "user-agent-parser": "^0.6.0",
+    "async": "^0.2.10"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=0.6"
-  },
-  "devDependencies": {
-    "async": "^0.2.10"
+    "node": ">=0.10"
   }
 }
