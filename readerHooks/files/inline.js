@@ -6,7 +6,7 @@
 	var mime = require('mime');
 	var _ = require('underscore');
 	var inline = {
-		process: function(file, callback) {
+		process: function(file, config, callback) {
 
 			// check if file was called directly (i mean per URL, y'know?)
 			var last_in_ref = file.referer.split('/');

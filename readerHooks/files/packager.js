@@ -1,7 +1,7 @@
 (function() {
 	var mime = require('mime');
 	var packager = {
-		process: function(file, callback) {
+		process: function(file, config, callback) {
 			var ext = file.name.replace(/.*[\.\/]/, '').toLowerCase();
 			if(ext === 'jspackconfig' || ext === 'jspackcfg') {
 				file.type = mime.types['json'];

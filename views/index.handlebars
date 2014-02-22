@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+	{{> html_head }}
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<h2>node.js prototype browser</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span12">
+					{{#if breadcrumb}}
+						<ul class="breadcrumb">
+							{{#each breadcrumb}}
+								<li>
+									{{#if link}}
+										<a href="{{ link }}">{{ title }}</a>
+										<span class="divider"> /</span>
+									{{else}}
+										<span>{{ title }}</span>
+									{{/if}}
+								</li>
+							{{/each}}
+						</ul>
+					{{/if}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="span9">
+					{{#if content }}
+						{{> content }}
+					{{/if}}
+				</div>
+				<div class="span3">
+					{{> sidebar }}
+				</div>
+			</div>
+		</div>
+		{{> le-js }}
+	</body>
+</html>

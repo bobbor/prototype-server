@@ -2,56 +2,6 @@
 	var _ = require('underscore');
 	var helper = {};
 	
-	helper.lazyEach = function(arr, stepCallback, completeCallback) {
-		var arrayIterator = function(items, i) {
-			if(!items.length) {
-				completeCallback();
-				return;
-			}
-			var item = items.shift();
-			stepCallback(item, i, arr, function() {
-				arrayIterator(items, ++i);
-			});
-		};
-		
-		var objectIterator = function(items) {
-			if(!items.length) {
-				completeCallback();
-				return;
-			}
-			var key = items.shift();
-			var val = arr[key];
-			
-			stepCallback(val, key, arr, function() {
-				objectIterator(items);
-			});
-		};
-		
-		if(_.isArray(arr)) {
-			arrayIterator(arr, 0);
-		} else {
-			objectIterator(_.keys(arr));
-		}
-	};
-	
-	helper.lazyMapArray = function(arr, stepFn, completeFn) {
-		var result = [];
-		var iterator = function(items, i) {
-			if(!items.length) {
-				completeFn(result);
-				return;
-			}
-			var item = items.shift();
-			
-			stepFn(item, i, arr, function(mappedItem) {
-				result.push(mappedItem);
-				iterator(items, ++i);
-			});
-		};
-		
-		iterator(arr, 0);
-	};
-	
 	helper.shortifyMIMEs = function(type) {
 		if(type === 'folder') {
 			return 'type-folder';

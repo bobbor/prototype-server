@@ -1,10 +1,10 @@
-script(src="/js/jquery.js")
-script(src="/js/underscore.js")
-script(src="/js/backbone.js")
-script(src="/js/backbone-localstorage.js")
-script(src="/js/bookmarks.js")
-if gotoIndex
-	script
+<script src="/js/jquery.js"></script>
+<script src="/js/underscore.js"></script>
+<script src="/js/backbone.js"></script>
+<script src="/js/backbone-localstorage.js"></script>
+<script src="/js/bookmarks.js"></script>
+{{#if goToIndex}}
+	<script>
 		(function($) {
 			var timer = window.setTimeout(function() {
 				location.href = location.pathname+'index.html';
@@ -23,3 +23,5 @@ if gotoIndex
 				})
 			;
 		}(jQuery));
+	</script>
+{{/if}}

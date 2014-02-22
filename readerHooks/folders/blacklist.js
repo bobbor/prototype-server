@@ -1,14 +1,17 @@
 (function() {
 
 	var blacklist = {
-		process: function(folder, callback) {
-			if(folder.config.blacklist) {
-				var len = folder.files.length;
+		process: function(folder, config, callback) {
+			if(config.blacklist) {
+				var len = folder.content.length;
+				var c = [];
 				while(len--) {
-					if(folder.config.blacklist.indexOf(folder.files[len].name) !== -1) {
-						folder.files.remove(len);
+					if(~config.blacklist.indexOf(folder.content[len].name)) {
+						continue;
 					}
+					c.unshift(folder.content[len]);
 				}
+				folder.content = c;
 			}
 			callback(null, folder);
 		}

@@ -1,32 +1,41 @@
 {
-	"name": "prototype-server",
-	"preferGlobal": "true",
-	"version": "0.2.0",
-	"author": "bobbor <bobbor.pap@gmail.com>",
-	"description": "a simple file server that can be infinitely extended using hooks",
-	"bin": {
-		"prototype-server": "./bin/server"
-	},
-	"scripts": {
-		"start": "node ./bin/server"
-	},
-	"main": "./src/server",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bobbor/prototype-server.git"
-	},
-	"keywords": [
-		"server", "prototype", "hooks", "express", "jade"
-	],
-	"dependencies" : {
-		"colors"     : "*",
-		"express"    : ">3.0.0",
-		"mime"       : ">=1.2.9",
-		"underscore" : ">=1.4.4",
-		"jade"       : "*"
-	},
-	"license": "MIT",
-	"engines": {
-		"node": ">=0.6"
-	}
+  "name": "prototype-server",
+  "preferGlobal": "true",
+  "version": "0.2.0",
+  "author": "bobbor <bobbor.pap@gmail.com>",
+  "description": "a simple file server that can be infinitely extended using hooks",
+  "bin": {
+    "prototype-server": "./bin/server"
+  },
+  "scripts": {
+    "start": "node ./bin/server"
+  },
+  "main": "./src/server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bobbor/prototype-server.git"
+  },
+  "keywords": [
+    "server",
+    "prototype",
+    "hooks",
+    "express",
+    "jade"
+  ],
+  "dependencies": {
+    "colors": "*",
+    "express": ">3.0.0",
+    "mime": ">=1.2.9",
+    "underscore": ">=1.4.4",
+    "consolidate": "^0.10.0",
+    "handlebars": "^2.0.0-alpha.1",
+    "user-agent-parser": "^0.6.0"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.6"
+  },
+  "devDependencies": {
+    "async": "^0.2.10"
+  }
 }

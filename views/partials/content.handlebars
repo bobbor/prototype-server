@@ -1,0 +1,20 @@
+<table class="table table-hover table-striped table-bordered">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Name</th>
+			<th>Size</th>
+			<th>Last Modified</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each content }}
+			<tr>
+				<td><i class="{{ classNames}}"></i></td>
+				<td><a href="{{ link }}"> {{ name }}</a>
+				<td>{{ size }}</td>
+				<td title="{{ modified }}">{{ modifiedNice }}</td>
+			</tr>
+		{{/each}}
+	</tbody>
+</table>

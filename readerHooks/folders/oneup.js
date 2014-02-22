@@ -1,8 +1,8 @@
 (function() {
 	var oneup = {
-		process: function(folder, callback) {
-			if(folder.path !== folder.config.docroot) {
-				folder.files.unshift({
+		process: function(folder, config, callback) {
+			if(folder.path !== config.docroot) {
+				folder.content.unshift({
 					name: 'Up one dir',
 					type: 'folder',
 					classNames: 'type-folder',

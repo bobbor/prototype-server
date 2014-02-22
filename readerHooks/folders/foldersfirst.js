@@ -1,11 +1,11 @@
 (function() {
 
 	var foldersFirst = {
-		process: function(folder, callback) {
+		process: function(folder, config, callback) {
 			var temp1 = [], temp2 = [];
-			var len = folder.files.length;
+			var len = folder.content.length;
 			
-			folder.files.forEach(function(file) {
+			folder.content.forEach(function(file) {
 				if(file.type === 'folder') {
 					temp1.push(file);
 				} else {
@@ -13,7 +13,7 @@
 				}
 			});
 			
-			folder.files = temp1.concat(temp2);
+			folder.content = temp1.concat(temp2);
 			callback(null, folder);
 		}
 	};
